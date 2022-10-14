@@ -93,10 +93,11 @@ struct CubicSpline
             end
 
             # Solve the linear system
-            sol = solve(prob)
+            #sol = solve(prob)
 
             # Set coefficients
-            coeffs[:,i] .= sol.u
+            #coeffs[:,i] .= sol.u
+            coeffs[:,i] .= prob.A \ prob.b
         end
 
         return new(ts, coeffs)
