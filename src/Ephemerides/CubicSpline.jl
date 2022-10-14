@@ -15,7 +15,8 @@ struct CubicSpline
         coeffs  = zeros(4*n, 6)
 
         # Allocate A and b matricies
-        A       = zeros(4*n, 4*n)
+        #A       = zeros(4*n, 4*n)
+        A       = spzeros(4*n, 4*n)
         b       = zeros(4*n, 1)
 
         # Create linear problem
