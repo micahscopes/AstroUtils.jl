@@ -21,11 +21,9 @@ const defaultPCK    = pkgSrcDir * "/../data/kernels/pck/gravity.tpc"
 
 # Includes
 include("spice.jl")
-include("rotations.jl")
-include("stateRepresentationConversions.jl")
+include("StateRepresentations/stateRepresentations.jl")
 include("Ephemerides/Ephemerides.jl")
 
-export convertState
 export furnshDefaults
-export Cartesian, Keplerian, MEE
+
 end

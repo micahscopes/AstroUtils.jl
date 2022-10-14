@@ -11,7 +11,7 @@ rv = SVector(6524.834, 6862.875,  6448.296, # [km]
 μ = 398600.4418 # [km³/s²]
 
 # Convert
-(kep,flag) = AstroUtils.cartToKep(rv, μ)
+(kep,flag) = convertState(rv, Cartesian, Keplerian, μ)
 
 # Tests 
 @test abs(kep[1] - 36127.3376) < 0.01
