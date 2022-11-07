@@ -63,4 +63,4 @@ function getPosition(ephems::Ephemerides, targID, t)
 end
 
 export Ephemeride, Ephemerides
-export getTargetIDs, getGM, getState, getPosition
+export getTargetIDs, getGM, getState, getPosition, getPositionPartial

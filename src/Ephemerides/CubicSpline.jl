@@ -132,7 +132,7 @@ end
 
 function getPosition(spline::CubicSpline, t)
     # Check that t is in [0, 1]
-    if t < 0.0 || t > 1.0
+    if t < 0.0 || t > 1.0 # Not working with Symbolics for sparsity detection atm
         throw(ArgumentError("Time passed to getState() is outside of CubicSpline bounds."))
     end
 
@@ -152,4 +152,28 @@ function getPosition(spline::CubicSpline, t)
     rz  = spline.coeffs[1 + 4*(idx - 1),3]*t^3 + spline.coeffs[2 + 4*(idx - 1),3]*t^2 + spline.coeffs[3 + 4*(idx - 1),3]*t + spline.coeffs[4 + 4*(idx - 1),3]
 
     return SVector(rx,ry,rz)
+end
+
+function getPositionPartial(spline::CubicSpline, t)
+    # Check that t is in [0, 1]
+    if t < 0.0 || t > 1.0 # Not working with Symbolics for sparsity detection atm
+        throw(ArgumentError("Time passed to getState() is outside of CubicSpline bounds."))
+    end
+
+    # Find relevent polynomial index 
+    idxFound = false
+    idx      = 0
+    while !idxFound
+        idx += 1
+        if t >= spline.ts[idx] && t <= spline.ts[idx + 1]
+            idxFound = true
+        end
+    end
+
+    # Compute interpolants
+    drxdt  = 3.0*spline.coeffs[1 + 4*(idx - 1),1]*t^2 + 2.0*spline.coeffs[2 + 4*(idx - 1),1]*t + spline.coeffs[3 + 4*(idx - 1),1]
+    drydt  = 3.0*spline.coeffs[1 + 4*(idx - 1),2]*t^2 + 2.0*spline.coeffs[2 + 4*(idx - 1),2]*t + spline.coeffs[3 + 4*(idx - 1),2]
+    drzdt  = 3.0*spline.coeffs[1 + 4*(idx - 1),3]*t^2 + 2.0*spline.coeffs[2 + 4*(idx - 1),3]*t + spline.coeffs[3 + 4*(idx - 1),3]
+
+    return SVector(drxdt,drydt,drzdt)
 end

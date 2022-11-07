@@ -5,6 +5,7 @@ using LinearSolve
 using StaticArrays
 using SparseArrays
 using SPICE
+using IfElse
 using Downloads: download
 
 const webLSK    = "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls"

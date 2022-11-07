@@ -75,3 +75,18 @@ function getPosition(ephem::Ephemeride, t)
     # Get state from spline and return
     return getPosition(ephem.spline, ts) 
 end
+
+function getPositionPartial(ephem::Ephemeride, t)
+    # Check that t is in [t0, tf]
+    if t < ephem.t0 || t > ephem.tf
+        throw(ArgumentError("Time passed to getPositionPartial() which is outside of the ephemeride's coverage."))
+    end
+
+    # Unscale time
+    ts = (t - ephem.t0)/(ephem.tf - ephem.t0)
+
+    # Get state from spline and return
+    dsdts = getPositionPartial(ephem.spline, ts)
+    dtsdt = 1.0 / (ephem.tf - ephem.t0)
+    return SVector(dsdts[1]*dtsdt, dsdts[2]*dtsdt, dsdts[3]*dtsdt)
+end
