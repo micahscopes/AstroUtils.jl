@@ -1,7 +1,6 @@
 module AstroUtils
 
 using LinearAlgebra
-using LinearSolve
 using StaticArrays
 using SparseArrays
 using SPICE
